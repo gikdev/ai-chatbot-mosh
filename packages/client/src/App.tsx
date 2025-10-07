@@ -9,5 +9,5 @@ export default function App() {
     .then(data => setMsg(data.message))
   }, [])
 
-  return <p>{msg}</p>
+  return <p className='font-bold p-4'>{msg}</p>
 }
