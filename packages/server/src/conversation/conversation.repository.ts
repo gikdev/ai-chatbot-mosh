@@ -1,18 +1,24 @@
 import type { ChatCompletionMessageParam } from "openai/resources"
 
-const conversations = new Map<string, ChatCompletionMessageParam[]>()
+class ConversationRepository {
+  private conversations = new Map<string, ChatCompletionMessageParam[]>()
 
-export function getCurrentConversation(conversationId: string) {
-  return conversations.get(conversationId) ?? []
+  constructor() {}
+
+  getCurrentConversation(conversationId: string) {
+    return this.conversations.get(conversationId) ?? []
+  }
+
+  pushNewMsgToConversation(
+    conversationId: string,
+    role: "user" | "assistant",
+    content: string
+  ) {
+    this.conversations.set(conversationId, [
+      ...this.getCurrentConversation(conversationId),
+      { role, content },
+    ])
+  }
 }
 
-export function pushNewMsgToConversation(
-  conversationId: string,
-  role: "user" | "assistant",
-  content: string
-) {
-  conversations.set(conversationId, [
-    ...getCurrentConversation(conversationId),
-    { role, content },
-  ])
-}
+export const conversationRepository = new ConversationRepository()
