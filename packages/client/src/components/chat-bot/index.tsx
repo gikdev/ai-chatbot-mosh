@@ -13,6 +13,7 @@ import { v4 } from "uuid"
 import { useMessages } from "./use-messages"
 import { cx } from "class-variance-authority"
 import ReactMarkdown from "react-markdown"
+import { TypingIndicator } from "./typing-indicator"
 
 interface ChatBotProps {}
 
@@ -90,13 +91,7 @@ export function ChatBot({}: ChatBotProps) {
           </div>
         ))}
 
-        {chatState === "typing" && (
-          <div className="flex items-center gap-1 p-3 bg-secondary rounded-md self-start">
-            <div className="w-2 h-2 rounded-full bg-primary animate-pulse [animation-delay:0s]" />
-            <div className="w-2 h-2 rounded-full bg-primary animate-pulse [animation-delay:0.2s]" />
-            <div className="w-2 h-2 rounded-full bg-primary animate-pulse [animation-delay:0.4s]" />
-          </div>
-        )}
+        {chatState === "typing" && <TypingIndicator />}
 
         {chatState === "error" && !!error && (
           <p className="text-destructive text-xs text-start self-start">
@@ -120,15 +115,19 @@ export function ChatBot({}: ChatBotProps) {
           })}
         />
 
-        <Button
-          disabled={!formState.isValid}
-          type="submit"
-          size="icon"
-          className="rounded-full"
-        >
-          <ArrowUpIcon weight="fill" />
-        </Button>
+        <SubmitBtn disabled={!formState.isValid} />
       </form>
     </div>
   )
 }
+
+const SubmitBtn = ({ disabled = false }: { disabled?: boolean }) => (
+  <Button
+    disabled={disabled}
+    type="submit"
+    size="icon"
+    className="rounded-full"
+  >
+    <ArrowUpIcon weight="fill" />
+  </Button>
+)
