@@ -25,7 +25,7 @@ class ConversationService {
     const completion = await this.client.chat.completions.create({
       model: process.env.LIARA_MODEL_NAME as string,
       temperature: 0.2,
-      max_completion_tokens: 100,
+      max_completion_tokens: 240,
       messages: conversationRepository.getCurrentConversation(conversationId),
     })
 
