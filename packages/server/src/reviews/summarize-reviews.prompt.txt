@@ -1,0 +1,5 @@
+Summarize the following cutsomer reviews into a
+short paragraph highlighting key themes, both
+positive and negative:
+
+{{REVIEWS}}

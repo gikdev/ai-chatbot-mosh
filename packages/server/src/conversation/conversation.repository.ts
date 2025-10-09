@@ -1,7 +1,7 @@
-import type { ChatCompletionMessageParam } from "openai/resources"
 import path from "path"
 import fs from "fs"
 import template from "../prompts/chatbot.txt"
+import type { Message } from "../llm/client"
 
 const parkInfo = fs.readFileSync(
   path.join(__dirname, "..", "prompts", "WonderWorld.md"),
@@ -10,7 +10,7 @@ const parkInfo = fs.readFileSync(
 const instructions = template.replace("{{PARK_INFO}}", parkInfo)
 
 class ConversationRepository {
-  private conversations = new Map<string, ChatCompletionMessageParam[]>()
+  private conversations = new Map<string, Message[]>()
 
   constructor() {}
 

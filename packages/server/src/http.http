@@ -1,0 +1,6 @@
+GET http://localhost:3000/api/products/4/reviews
+
+###
+
+POST http://localhost:3000/api/products/2/reviews/summarize
+Content-Type: application/json

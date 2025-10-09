@@ -1,7 +1,0 @@
-POST http://localhost:3000/api/chat
-Content-Type: application/json
-
-{
-  "prompt": "What was my first question?",
-  "conversationId": "conv-2"
-}

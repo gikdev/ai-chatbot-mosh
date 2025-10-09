@@ -1,5 +1,6 @@
-import OpenAI from "openai"
+import { llmClient } from "../llm/client"
 import { conversationRepository } from "./conversation.repository"
+import { v4 } from "uuid"
 
 interface ChatResponse {
   id: string
@@ -7,11 +8,6 @@ interface ChatResponse {
 }
 
 class ConversationService {
-  client = new OpenAI({
-    baseURL: process.env.LIARA_BASE_URL,
-    apiKey: process.env.LIARA_API_KEY,
-  })
-
   async sendMessage(
     prompt: string,
     conversationId: string
@@ -22,14 +18,10 @@ class ConversationService {
       prompt
     )
 
-    const completion = await this.client.chat.completions.create({
-      model: process.env.LIARA_MODEL_NAME as string,
-      temperature: 0.2,
-      max_completion_tokens: 240,
-      messages: conversationRepository.getCurrentConversation(conversationId),
-    })
+    const messages =
+      conversationRepository.getCurrentConversation(conversationId)
+    const msg = await llmClient.generateTextWithMessages({ messages })
 
-    const msg = completion.choices[0]?.message.content || ""
     if (msg)
       conversationRepository.pushNewMsgToConversation(
         conversationId,
@@ -37,7 +29,7 @@ class ConversationService {
         msg
       )
 
-    return { id: completion.id, message: msg }
+    return { id: v4(), message: msg }
   }
 }
 
