@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react"
 import { v4 } from "uuid"
 
-interface Message {
+export interface Message {
   id: string
   content: string
   role: "user" | "bot"
